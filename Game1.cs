@@ -11,11 +11,8 @@ namespace SpaceShooter
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         Texture2D ballTexture;
-        Vector2 ballPosition = new Vector2(0, 0);
-        float baseBallSpeed = 3;
-        float acceleration;
-        float ballMomentumX;
-        float ballMomentumY;
+        List<Vector2> gameObectPositions = new List<Vector2>();
+        
 
         public Game1()
         {
@@ -30,8 +27,8 @@ namespace SpaceShooter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-
+            SpaceShip TheShip = new SpaceShip();
+            gameObectPositions.Add(TheShip.Position);
             base.Initialize();
         }
 
@@ -45,50 +42,6 @@ namespace SpaceShooter
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            var kstate = Keyboard.GetState();
-
-            if (kstate.IsKeyDown(Keys.LeftShift))
-            {
-                acceleration = baseBallSpeed * 2;
-            }
-            else
-            {
-                acceleration = baseBallSpeed;
-            }
-            if (kstate.IsKeyDown(Keys.Up))
-            {
-                ballMomentumY -= acceleration;
-            }
-            else if (ballMomentumY <= 0)
-            {
-                ballMomentumY += acceleration;
-            }
-            if (kstate.IsKeyDown(Keys.Down))
-            {
-                ballMomentumY += acceleration;
-            }
-            else if (ballMomentumY >= 0)
-            {
-                ballMomentumY -= acceleration;
-            }
-            if (kstate.IsKeyDown(Keys.Left))
-            {
-                ballMomentumX -= acceleration;
-            }
-            else if (ballMomentumX <= 0)
-            {
-                ballMomentumX += acceleration;
-            }
-            if (kstate.IsKeyDown(Keys.Right))
-            {
-                ballMomentumX += acceleration;
-            }
-            else if (ballMomentumX >= 0)
-            {
-                ballMomentumX -= acceleration;
-            }
-            ballPosition.Y += ballMomentumY * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            ballPosition.X += ballMomentumX * (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime);
         }
 
