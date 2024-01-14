@@ -10,9 +10,10 @@ namespace SpaceShooter
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        Texture2D ballTexture;
-        List<Vector2> gameObectPositions = new List<Vector2>();
-        
+        Texture2D spaceShipTexture;
+        Texture2D asteroidTexture;
+        Texture2D laserTexture;
+        List<Object> objects = new List<Object>();
 
         public Game1()
         {
@@ -24,42 +25,53 @@ namespace SpaceShooter
             _graphics.IsFullScreen = true;
         }
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-            SpaceShip TheShip = new SpaceShip();
-            gameObectPositions.Add(TheShip.Position);
-            base.Initialize();
-        }
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            ballTexture = Content.Load<Texture2D>("spaceship");
+            spaceShipTexture = Content.Load<Texture2D>("spaceship");
+            asteroidTexture = Content.Load<Texture2D>("ball");
+            laserTexture = Content.Load<Texture2D>("laser");
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            Object spaceShip = new Object();
+            spaceShip.texture = spaceShipTexture;
+            spaceShip.type = 's';
+            objects.Add(spaceShip);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
+            foreach (Object item in objects)
+            {
+                item.Update(gameTime);
+            }
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            _spriteBatch.Draw(
-            ballTexture,
-            ballPosition,
-            null,
-            Color.White,
-            0f,
-            new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
-            Vector2.One,
-            SpriteEffects.None,
-            0f
-            );
+            foreach (Object item in objects)
+            {
+                _spriteBatch.Draw(
+                item.texture,
+                item.position,
+                null,
+                Color.White,
+                0f,
+                new Vector2(item.texture.Width /2, item.texture.Height / 2),
+                Vector2.One,
+                SpriteEffects.None,
+                0f
+                );
+            }
             _spriteBatch.End();
             base.Draw(gameTime);
         }
