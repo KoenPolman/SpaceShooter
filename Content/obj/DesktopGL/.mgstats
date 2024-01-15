@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/ball.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/ball.xnb","TextureProcessor","Texture2DContent",8368,16469,0,2083443
-"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/laser.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/laser.xnb","TextureProcessor","Texture2DContent",454107,3193557,0,1132921
-"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/spaceship.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/spaceship.xnb","TextureProcessor","Texture2DContent",12265,35285,0,0052959
+"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/ball.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/ball.xnb","TextureProcessor","Texture2DContent",8368,16469,0,1779054
+"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/File.spritefont","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/File.xnb","FontDescriptionProcessor","SpriteFontContent",2080,70687,0,1292882
+"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/laser.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/laser.xnb","TextureProcessor","Texture2DContent",454107,3193557,0,1324498
+"C:/Users/Eigenaar/source/repos/SpaceShooter/Content/spaceship.png","C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/spaceship.xnb","TextureProcessor","Texture2DContent",12265,35285,0,0049223

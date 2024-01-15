@@ -10,13 +10,15 @@ namespace SpaceShooter
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        TextManegement textManegement = new TextManegement();
         Texture2D ballTexture;
         Vector2 ballPosition = new Vector2(0, 0);
         float baseBallSpeed = 3;
         float acceleration;
         float ballMomentumX;
         float ballMomentumY;
-
+        bool actionExecuted = false;
+        SpriteFont font;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -31,7 +33,7 @@ namespace SpaceShooter
         {
             // TODO: Add your initialization logic here
             ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-
+            textManegement.SetScore();
             base.Initialize();
         }
 
@@ -39,6 +41,7 @@ namespace SpaceShooter
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             ballTexture = Content.Load<Texture2D>("spaceship");
+            font = Content.Load<SpriteFont>("File");
         }
 
         protected override void Update(GameTime gameTime)
@@ -46,6 +49,28 @@ namespace SpaceShooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             var kstate = Keyboard.GetState();
+
+            if (kstate.IsKeyDown(Keys.R))
+            {
+                if (textManegement.state == 'g' && !actionExecuted)
+                {
+                    textManegement.GameOver();
+                    actionExecuted = true;
+                }
+                else if (textManegement.state == 'o' && !actionExecuted)
+                {
+                    textManegement.SetScore();
+                    actionExecuted = true;
+                }
+            }
+            else
+            {
+                actionExecuted = false;
+            }
+            if (kstate.IsKeyDown(Keys.Space))
+            {
+                textManegement.AddScore();
+            }
 
             if (kstate.IsKeyDown(Keys.LeftShift))
             {
@@ -96,6 +121,7 @@ namespace SpaceShooter
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            _spriteBatch.DrawString(font, textManegement.currentText, new Vector2(200,200), Color.Red);
             _spriteBatch.Draw(
             ballTexture,
             ballPosition,

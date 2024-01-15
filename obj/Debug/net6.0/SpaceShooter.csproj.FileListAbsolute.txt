@@ -26,3 +26,5 @@ C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\refint\SpaceShooter
 C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\SpaceShooter.pdb
 C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\SpaceShooter.genruntimeconfig.cache
 C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\ref\SpaceShooter.dll
+C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\SpaceShooter.sourcelink.json
+C:\Users\Eigenaar\source\repos\SpaceShooter\bin\Debug\net6.0\Content\File.xnb
