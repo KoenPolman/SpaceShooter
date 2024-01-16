@@ -5,10 +5,12 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/ball.png</File>
+    <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/File.spritefont</File>
     <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/laser.png</File>
     <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/spaceship.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
