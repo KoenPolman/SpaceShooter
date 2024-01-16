@@ -10,10 +10,14 @@ namespace SpaceShooter
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        List<Object> objects = new List<Object>();
+        TextManegement textManegement = new TextManegement();
         Texture2D spaceShipTexture;
         Texture2D asteroidTexture;
         Texture2D laserTexture;
-        List<Object> objects = new List<Object>();
+        SpriteFont font;
+        bool actionExecutedSpace = false;
+        bool actionExecutedR = false;
 
         public Game1()
         {
@@ -31,6 +35,7 @@ namespace SpaceShooter
             spaceShipTexture = Content.Load<Texture2D>("spaceship");
             asteroidTexture = Content.Load<Texture2D>("ball");
             laserTexture = Content.Load<Texture2D>("laser");
+            font = Content.Load<SpriteFont>("File");
         }
 
         protected override void Initialize()
@@ -40,6 +45,7 @@ namespace SpaceShooter
             spaceShip.texture = spaceShipTexture;
             spaceShip.type = 's';
             objects.Add(spaceShip);
+            textManegement.SetScore();
         }
 
         protected override void Update(GameTime gameTime)
@@ -52,12 +58,43 @@ namespace SpaceShooter
             {
                 item.Update(gameTime);
             }
+            var kstate = Keyboard.GetState();
+
+            if (kstate.IsKeyDown(Keys.Space) && actionExecutedSpace)
+            {
+                textManegement.AddScore();
+                actionExecutedSpace = true;
+            }
+            else
+            {
+                actionExecutedSpace = false;
+            }
+
+            if (kstate.IsKeyDown(Keys.R))
+            {
+                if (textManegement.state == 'g' && !actionExecutedR)
+                {
+                    textManegement.GameOver();
+                    actionExecutedR = true;
+                }
+                else if (textManegement.state == 'o' && !actionExecutedR)
+                {
+                    textManegement.SetScore();
+                    actionExecutedR = true;
+                }
+            }
+            else
+            {
+                actionExecutedR = false;
+            }
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            _spriteBatch.DrawString(font, textManegement.currentText, new Vector2(200, 200), Color.Red);
             foreach (Object item in objects)
             {
                 _spriteBatch.Draw(
