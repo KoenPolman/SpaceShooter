@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
+using System.Threading;
 
 namespace SpaceShooter
 {
@@ -16,8 +17,8 @@ namespace SpaceShooter
         Texture2D asteroidTexture;
         Texture2D laserTexture;
         SpriteFont font;
-        bool actionExecutedSpace = false;
-        bool actionExecutedR = false;
+        int playerCount = 1;
+        double whenDeployedTutorial;
 
         public Game1()
         {
@@ -45,6 +46,7 @@ namespace SpaceShooter
 
         protected override void Update(GameTime gameTime)
         {
+            textManegement.UIText(playerCount);
             var kstate = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kstate.IsKeyDown(Keys.Escape))
             {
@@ -53,10 +55,39 @@ namespace SpaceShooter
 
             if (textManegement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
             {
-                Object spaceShip = new Object();
-                spaceShip.texture = spaceShipTexture;
-                spaceShip.type = '1';
-                objects.Add(spaceShip);
+                Object spaceShipOne = new Object();
+                spaceShipOne.texture = spaceShipTexture;
+                spaceShipOne.type = '1';
+                objects.Add(spaceShipOne);
+                if (kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3))
+                {
+                    Object spaceShipTwo = new Object();
+                    spaceShipTwo.texture = spaceShipTexture;
+                    spaceShipTwo.type = '2';
+                    objects.Add(spaceShipTwo);
+                    playerCount++;
+                }
+                if (kstate.IsKeyDown(Keys.D3))
+                {
+                    Object spaceShipThree = new Object();
+                    spaceShipThree.texture = spaceShipTexture;
+                    spaceShipThree.type = '3';
+                    objects.Add(spaceShipThree);
+                    playerCount++;
+                }
+                textManegement.state = 't';
+                whenDeployedTutorial = gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (textManegement.state == 't' && whenDeployedTutorial + 10 <= gameTime.TotalGameTime.TotalSeconds)
+            {
+                textManegement.state = 'g';
+            }
+
+            if (kstate.IsKeyDown(Keys.R) && textManegement.state == 'g')
+            {
+                textManegement.state = 'm';
+                objects.Clear();
             }
 
             foreach (Object item in objects)
@@ -78,7 +109,7 @@ namespace SpaceShooter
                 item.position,
                 null,
                 Color.White,
-                0f,
+                item.rotation,
                 new Vector2(item.texture.Width /2, item.texture.Height / 2),
                 Vector2.One,
                 SpriteEffects.None,

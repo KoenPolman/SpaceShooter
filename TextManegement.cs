@@ -16,17 +16,17 @@ public class TextManegement
                 currentText = "GAME OVER\nscore: " + score + "\npress 'r' to restart";
                 break;
 			case 'm': //m voor menu
-                currentText = "ASTEROID DEFENSE FORCE\npress '1' to start";
+                currentText = "SPACESHIP BATTLE ARENA\npress '1' to start single player\npress '2' to start hotseat 1v1\npress '3' to start hotseat 1v1v1\npress ESC at any time to quit the program";
                 break;
 			case 't': //t voor tutorial
-				currentText = "Player 1\npress \n       W\n      ASD\n         to move\nand\n    C\n    to fire\n\n";
-				if (playerCount <= 2)
+				currentText = "Press R to return to the main menu\nPlayer 1\npress WASD to move and C to fire\n\n";
+				if (playerCount >= 2)
 				{
-					currentText = currentText + "Player 2\npress \n       I\n      JKL\n         to move\nand\n    .\n    to fire\n\n";
+					currentText = currentText + "Player 2\npress IJKL to move and . to fire\n\n";
 				}
-				if (playerCount <= 3)
+				if (playerCount >= 3)
 				{
-                    currentText = currentText + "Player 3\npress \n       T\n      FGH\n         to move\nand\n    N\n    to fire\n\n";
+                    currentText = currentText + "Player 3\npress TFGH to move and N to fire\n\n";
                 }
                 break;
         }

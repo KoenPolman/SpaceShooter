@@ -57,3 +57,4 @@ C:\Users\Koen\Documents\GitHub\SpaceShooter\obj\Debug\net6.0\SpaceShooter.genrun
 C:\Users\Koen\Documents\GitHub\SpaceShooter\obj\Debug\net6.0\ref\SpaceShooter.dll
 C:\Users\Eigenaar\source\repos\SpaceShooter\bin\Debug\net6.0\Content\File.xnb
 C:\Users\Eigenaar\source\repos\SpaceShooter\obj\Debug\net6.0\SpaceShooter.sourcelink.json
+C:\Users\Koen\Documents\GitHub\SpaceShooter\bin\Debug\net6.0\Content\File.xnb

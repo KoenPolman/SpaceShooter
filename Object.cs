@@ -4,27 +4,31 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 public class Object
 {
-    public char type; //type geeft aan wat voor object het is
-                      //op het moment van schrijven is dit
-                      //1 t/m 3 voor het ruimte schip
-                      //m voor comeet/meteor
-                      //en l voor laser
-    public Vector2 position = new Vector2(0,0);
+    public char type;
+
+    public Vector2 position = new Vector2(0, 0);
+    public float rotation = 0;
+
     public Texture2D texture;
+
+    Vector2 momentum = new Vector2(0, 0);
+    Vector2 directionModifyer = new Vector2(0, 0);
     float baseSpeed = 3;
+    float rotationSpeed = 0.1f;
     float acceleration;
-    float MomentumX;
-    float MomentumY;
     public void Update(GameTime gameTime)
     {
         if (type == '1' || type == '2' || type == '3')
         {
-            Control();
+            Control1();
         }
-        position.Y += MomentumY * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        position.X += MomentumX * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        directionModifyer.Y;
+        directionModifyer.X;
+
+        position.Y += momentum.Y * directionModifyer.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        position.X += momentum.X * directionModifyer.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
-    private void Control()
+    private void Control1()
     {
         var kstate = Keyboard.GetState();
 
@@ -36,37 +40,29 @@ public class Object
         {
             acceleration = baseSpeed;
         }
-        if (kstate.IsKeyDown(Keys.Up))
+        if (kstate.IsKeyDown(Keys.W))
         {
-            MomentumY -= acceleration;
+            momentum.Y -= acceleration;
         }
-        else if (MomentumY <= 0)
+        else if (momentum.Y <= 0)
         {
-            MomentumY += acceleration;
+            momentum.Y += acceleration;
         }
-        if (kstate.IsKeyDown(Keys.Down))
+        if (kstate.IsKeyDown(Keys.S))
         {
-            MomentumY += acceleration;
+            momentum.Y += acceleration;
         }
-        else if (MomentumY >= 0)
+        else if (momentum.Y >= 0)
         {
-            MomentumY -= acceleration;
+            momentum.Y -= acceleration;
         }
-        if (kstate.IsKeyDown(Keys.Left))
+        if (kstate.IsKeyDown(Keys.A))
         {
-            MomentumX -= acceleration;
+            rotation -= rotationSpeed;
         }
-        else if (MomentumX <= 0)
+        if (kstate.IsKeyDown(Keys.D))
         {
-            MomentumX += acceleration;
-        }
-        if (kstate.IsKeyDown(Keys.Right))
-        {
-            MomentumX += acceleration;
-        }
-        else if (MomentumX >= 0)
-        {
-            MomentumX -= acceleration;
+            rotation += rotationSpeed;
         }
     }
 }
