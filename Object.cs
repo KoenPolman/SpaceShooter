@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 public class Object
 {
     public char type; //type geeft aan wat voor object het is
-               //op het moment van schrijven is dit
-               //s voor het ruimte schip
-               //m voor comeet/meteor
-               //en l voor laser
+                      //op het moment van schrijven is dit
+                      //1 t/m 3 voor het ruimte schip
+                      //m voor comeet/meteor
+                      //en l voor laser
     public Vector2 position = new Vector2(0,0);
     public Texture2D texture;
     float baseSpeed = 3;
@@ -17,7 +17,7 @@ public class Object
     float MomentumY;
     public void Update(GameTime gameTime)
     {
-        if (type == 's')
+        if (type == '1' || type == '2' || type == '3')
         {
             Control();
         }

@@ -41,51 +41,27 @@ namespace SpaceShooter
         protected override void Initialize()
         {
             base.Initialize();
-            Object spaceShip = new Object();
-            spaceShip.texture = spaceShipTexture;
-            spaceShip.type = 's';
-            objects.Add(spaceShip);
-            textManegement.SetScore();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var kstate = Keyboard.GetState();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kstate.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
+
+            if (textManegement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
+            {
+                Object spaceShip = new Object();
+                spaceShip.texture = spaceShipTexture;
+                spaceShip.type = '1';
+                objects.Add(spaceShip);
+            }
+
             foreach (Object item in objects)
             {
                 item.Update(gameTime);
-            }
-            var kstate = Keyboard.GetState();
-
-            if (kstate.IsKeyDown(Keys.Space) && actionExecutedSpace)
-            {
-                textManegement.AddScore();
-                actionExecutedSpace = true;
-            }
-            else
-            {
-                actionExecutedSpace = false;
-            }
-
-            if (kstate.IsKeyDown(Keys.R))
-            {
-                if (textManegement.state == 'g' && !actionExecutedR)
-                {
-                    textManegement.GameOver();
-                    actionExecutedR = true;
-                }
-                else if (textManegement.state == 'o' && !actionExecutedR)
-                {
-                    textManegement.SetScore();
-                    actionExecutedR = true;
-                }
-            }
-            else
-            {
-                actionExecutedR = false;
             }
 
             base.Update(gameTime);
