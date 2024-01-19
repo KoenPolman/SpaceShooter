@@ -46,7 +46,6 @@ namespace SpaceShooter
 
         protected override void Update(GameTime gameTime)
         {
-            textManegement.UIText(playerCount);
             var kstate = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kstate.IsKeyDown(Keys.Escape))
             {
@@ -55,25 +54,15 @@ namespace SpaceShooter
 
             if (textManegement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
             {
-                Object spaceShipOne = new Object();
-                spaceShipOne.texture = spaceShipTexture;
-                spaceShipOne.type = '1';
-                objects.Add(spaceShipOne);
-                if (kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3))
+                if (kstate.IsKeyDown(Keys.D1)) { playerCount = 1; }
+                if (kstate.IsKeyDown(Keys.D2)) { playerCount = 2; }
+                if (kstate.IsKeyDown(Keys.D3)) { playerCount = 3; }
+                for (int i = 0; i < playerCount; i++)
                 {
-                    Object spaceShipTwo = new Object();
-                    spaceShipTwo.texture = spaceShipTexture;
-                    spaceShipTwo.type = '2';
-                    objects.Add(spaceShipTwo);
-                    playerCount++;
-                }
-                if (kstate.IsKeyDown(Keys.D3))
-                {
-                    Object spaceShipThree = new Object();
-                    spaceShipThree.texture = spaceShipTexture;
-                    spaceShipThree.type = '3';
-                    objects.Add(spaceShipThree);
-                    playerCount++;
+                    int playerIndex = i; 
+                    Object spaceShip = new Object();
+                    spaceShip.Start(spaceShipTexture, 's', playerPlacement(playerIndex,playerCount),90 * i,playerIndex);
+                    objects.Add(spaceShip);
                 }
                 textManegement.state = 't';
                 whenDeployedTutorial = gameTime.ElapsedGameTime.TotalSeconds;
@@ -84,7 +73,7 @@ namespace SpaceShooter
                 textManegement.state = 'g';
             }
 
-            if (kstate.IsKeyDown(Keys.R) && textManegement.state == 'g')
+            if (kstate.IsKeyDown(Keys.R) && (textManegement.state == 'g' || textManegement.state == 't'))
             {
                 textManegement.state = 'm';
                 objects.Clear();
@@ -92,8 +81,13 @@ namespace SpaceShooter
 
             foreach (Object item in objects)
             {
-                item.Update(gameTime);
+                item.Update(gameTime, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
+                if (item.fire)
+                {
+
+                }
             }
+            textManegement.UIText(playerCount);
 
             base.Update(gameTime);
         }
@@ -101,7 +95,7 @@ namespace SpaceShooter
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(font, textManegement.currentText, new Vector2(200, 200), Color.Red);
+            _spriteBatch.DrawString(font, textManegement.currentText, textManegement.position, Color.White);
             foreach (Object item in objects)
             {
                 _spriteBatch.Draw(
@@ -110,7 +104,7 @@ namespace SpaceShooter
                 null,
                 Color.White,
                 item.rotation,
-                new Vector2(item.texture.Width /2, item.texture.Height / 2),
+                new Vector2(item.texture.Width / 2, item.texture.Height / 2),
                 Vector2.One,
                 SpriteEffects.None,
                 0f
@@ -118,6 +112,51 @@ namespace SpaceShooter
             }
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+        private Vector2 playerPlacement(int index, int count)
+        {
+            Vector2 position = new Vector2();
+            switch (playerCount)
+            {
+                case 1:
+                    position.Y = _graphics.PreferredBackBufferHeight / 2;
+                    position.X = _graphics.PreferredBackBufferWidth / 2;
+                    break;
+                case 2:
+                    position.Y = _graphics.PreferredBackBufferHeight / 2;
+                    if (index == 0)
+                    {
+                        position.X = _graphics.PreferredBackBufferWidth / 3 * 1;
+                    }
+                    else
+                    {
+                        position.X = _graphics.PreferredBackBufferWidth / 3 * 2;
+                    }
+                    break;
+                case 3:
+                    if (index == 0)
+                    {
+                        position.Y = _graphics.PreferredBackBufferHeight / 3 * 1;
+                    }
+                    else
+                    {
+                        position.Y = _graphics.PreferredBackBufferHeight / 3 * 2;
+                    }
+                    switch (index)
+                    {
+                        case 0:
+                            position.X = _graphics.PreferredBackBufferWidth / 4 * 2;
+                            break;
+                        case 1:
+                            position.X = _graphics.PreferredBackBufferWidth / 4 * 3;
+                            break;
+                        case 2:
+                            position.X = _graphics.PreferredBackBufferWidth / 4 * 1;
+                            break;
+                    }
+                    break;
+            }
+            return position;
         }
     }
 }

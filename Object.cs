@@ -4,65 +4,77 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 public class Object
 {
-    public char type;
-
-    public Vector2 position = new Vector2(0, 0);
-    public float rotation = 0;
-
     public Texture2D texture;
+    public char type;
+    int playerIndex = 3;
 
-    Vector2 momentum = new Vector2(0, 0);
-    Vector2 directionModifyer = new Vector2(0, 0);
-    float baseSpeed = 3;
-    float rotationSpeed = 0.1f;
-    float acceleration;
-    public void Update(GameTime gameTime)
+    private bool[,] controlScheme = null;
+
+    private Vector2 momentumDir = new Vector2(0, 0);
+    public  Vector2 position = new Vector2(0, 0);
+    public  float   rotation = 0;
+    private float   baseSpeed = 3f;
+    private float   rotationSpeed = 0.1f;
+    public  bool    fire = false;
+    public void Start(Texture2D newTexture, char newType, Vector2 newPosition, float newRotation, int newPlayerIndex)
     {
-        if (type == '1' || type == '2' || type == '3')
-        {
-            Control1();
-        }
-        directionModifyer.Y;
-        directionModifyer.X;
-
-        position.Y += momentum.Y * directionModifyer.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        position.X += momentum.X * directionModifyer.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        texture     = newTexture;
+        type        = newType;
+        position    = newPosition;
+        rotation    = newRotation;
+        playerIndex = newPlayerIndex;
     }
-    private void Control1()
+    public void Update(GameTime gameTime, int windowHeigth, int windowWidth)
     {
-        var kstate = Keyboard.GetState();
+        var kstate = Keyboard.GetState(); //BEHOLD ... the control scheme
+        controlScheme = new bool[,] {
+        { kstate.IsKeyDown(Keys.W), kstate.IsKeyDown(Keys.S), kstate.IsKeyDown(Keys.A), kstate.IsKeyDown(Keys.D), kstate.IsKeyDown(Keys.C) },  //control scheme for player 1
+        { kstate.IsKeyDown(Keys.I), kstate.IsKeyDown(Keys.K), kstate.IsKeyDown(Keys.J), kstate.IsKeyDown(Keys.L), kstate.IsKeyDown(Keys.M) },  //control scheme for player 2
+        { kstate.IsKeyDown(Keys.T), kstate.IsKeyDown(Keys.G), kstate.IsKeyDown(Keys.F), kstate.IsKeyDown(Keys.H), kstate.IsKeyDown(Keys.N) } };//control scheme for player 3
 
-        if (kstate.IsKeyDown(Keys.LeftShift))
+        if (type == 's')
         {
-            acceleration = baseSpeed * 2;
+            Control();
         }
-        else
+
+        position.Y += momentumDir.Y * (float)gameTime.ElapsedGameTime.TotalSeconds; //calculates the position of the player
+        position.X -= momentumDir.X * (float)gameTime.ElapsedGameTime.TotalSeconds; //by taking the current position and adding the momentum taking time between frames into account
+
+        if (position.Y < 0) { position.Y = windowHeigth; } //these four lines take care of wrapping
+        if (position.Y > windowHeigth) { position.Y = 0; } //meaning if the player goes over the edge of the window they appear on the other side
+        if (position.X < 0) {  position.X = windowWidth; }
+        if (position.X > windowWidth)  { position.X = 0; }
+    }
+    private void Control()
+    {
+        if (controlScheme[playerIndex, 0]) //move forwards
         {
-            acceleration = baseSpeed;
+            momentumDir.Y -= baseSpeed * (float)Math.Cos(rotation); //adds momentum in the direction the player points in
+            momentumDir.X -= baseSpeed * (float)Math.Sin(rotation);
         }
-        if (kstate.IsKeyDown(Keys.W))
+        else if (controlScheme[playerIndex, 1]) //move backwards
         {
-            momentum.Y -= acceleration;
+            momentumDir.Y += baseSpeed * (float)Math.Cos(rotation);
+            momentumDir.X += baseSpeed * (float)Math.Sin(rotation);
         }
-        else if (momentum.Y <= 0)
+        else //slow down to a halt
         {
-            momentum.Y += acceleration;
+            if (momentumDir.Y > 0) { momentumDir.Y--; }
+            if (momentumDir.Y < 0) { momentumDir.Y++; }
+            if (momentumDir.X > 0) { momentumDir.X--; }
+            if (momentumDir.X < 0) { momentumDir.X++; }
         }
-        if (kstate.IsKeyDown(Keys.S))
-        {
-            momentum.Y += acceleration;
-        }
-        else if (momentum.Y >= 0)
-        {
-            momentum.Y -= acceleration;
-        }
-        if (kstate.IsKeyDown(Keys.A))
+        if (controlScheme[playerIndex, 2]) //rotate left
         {
             rotation -= rotationSpeed;
         }
-        if (kstate.IsKeyDown(Keys.D))
+        if (controlScheme[playerIndex, 3]) //rotate right
         {
             rotation += rotationSpeed;
+        }
+        if (controlScheme[playerIndex, 4]) //fire laser
+        {
+            fire = true;
         }
     }
 }
