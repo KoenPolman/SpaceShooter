@@ -102,24 +102,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Eigenaar\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Koen\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Eigenaar\\source\\repos\\SpaceShooter\\SpaceShooter.csproj",
+      "projectUniqueName": "C:\\Users\\Koen\\Documents\\GitHub\\SpaceShooter\\SpaceShooter.csproj",
       "projectName": "SpaceShooter",
-      "projectPath": "C:\\Users\\Eigenaar\\source\\repos\\SpaceShooter\\SpaceShooter.csproj",
-      "packagesPath": "C:\\Users\\Eigenaar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Eigenaar\\source\\repos\\SpaceShooter\\obj\\",
+      "projectPath": "C:\\Users\\Koen\\Documents\\GitHub\\SpaceShooter\\SpaceShooter.csproj",
+      "packagesPath": "C:\\Users\\Koen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Koen\\Documents\\GitHub\\SpaceShooter\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Eigenaar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Koen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -127,7 +122,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -171,7 +165,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

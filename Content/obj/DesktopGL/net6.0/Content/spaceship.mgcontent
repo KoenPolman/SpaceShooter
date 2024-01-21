@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/spaceship.png</SourceFile>
-  <SourceTime>2023-12-11T13:11:40.4058519+01:00</SourceTime>
-  <DestFile>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/Content/spaceship.xnb</DestFile>
-  <DestTime>2024-01-18T10:04:16.464973+01:00</DestTime>
+  <SourceFile>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/spaceship.png</SourceFile>
+  <SourceTime>2024-01-09T14:08:12.5541226+01:00</SourceTime>
+  <DestFile>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/bin/DesktopGL/Content/spaceship.xnb</DestFile>
+  <DestTime>2024-01-19T23:27:14.7501146+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

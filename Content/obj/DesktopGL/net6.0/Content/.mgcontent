@@ -4,10 +4,10 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/ball.png</File>
-    <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/File.spritefont</File>
-    <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/laser.png</File>
-    <File>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/spaceship.png</File>
+    <File>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/ball.png</File>
+    <File>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/File.spritefont</File>
+    <File>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/laser.png</File>
+    <File>C:/Users/Koen/Documents/GitHub/SpaceShooter/Content/spaceship.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

@@ -25,18 +25,18 @@ namespace SpaceShooter
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferHeight = 1440;
-            _graphics.PreferredBackBufferWidth = 2560;
-            _graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferHeight = 750;
+            _graphics.PreferredBackBufferWidth = 1500;
+            _graphics.IsFullScreen = false;
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch     = new SpriteBatch(GraphicsDevice);
             spaceShipTexture = Content.Load<Texture2D>("spaceship");
-            asteroidTexture = Content.Load<Texture2D>("ball");
-            laserTexture = Content.Load<Texture2D>("laser");
-            font = Content.Load<SpriteFont>("File");
+            asteroidTexture  = Content.Load<Texture2D>("ball");
+            laserTexture     = Content.Load<Texture2D>("laser");
+            font             = Content.Load<SpriteFont>("File");
         }
 
         protected override void Initialize()
@@ -53,40 +53,87 @@ namespace SpaceShooter
             }
 
             if (textManegement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
-            {
+            {   //the gameplay starts, depending on wich button is pressed the amount of players will play
                 if (kstate.IsKeyDown(Keys.D1)) { playerCount = 1; }
                 if (kstate.IsKeyDown(Keys.D2)) { playerCount = 2; }
                 if (kstate.IsKeyDown(Keys.D3)) { playerCount = 3; }
-                for (int i = 0; i < playerCount; i++)
-                {
-                    int playerIndex = i; 
-                    Object spaceShip = new Object();
-                    spaceShip.Start(spaceShipTexture, 's', playerPlacement(playerIndex,playerCount),90 * i,playerIndex);
-                    objects.Add(spaceShip);
-                }
-                textManegement.state = 't';
-                whenDeployedTutorial = gameTime.ElapsedGameTime.TotalSeconds;
+                StartRound();
+                textManegement.state = 't'; //t stands for tutorial
+                whenDeployedTutorial = gameTime.TotalGameTime.TotalSeconds; //registers when the tutorial is deployed to be removed within a certain amount of seconds
             }
 
             if (textManegement.state == 't' && whenDeployedTutorial + 10 <= gameTime.TotalGameTime.TotalSeconds)
             {
-                textManegement.state = 'g';
+                textManegement.state = 'g'; // g stands for game
             }
 
             if (kstate.IsKeyDown(Keys.R) && (textManegement.state == 'g' || textManegement.state == 't'))
-            {
-                textManegement.state = 'm';
-                objects.Clear();
+            {   //return to the mainmenu
+                objects.Clear(); //makes the plaing area empty
+                textManegement.state = 'm'; //m stands for menu/mainmenu
+                textManegement.ResetScore();
             }
 
-            foreach (Object item in objects)
-            {
-                item.Update(gameTime, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
-                if (item.fire)
+            for (int j = 0; j < objects.Count; j++)
+            {   //in this for loop items in the list "objects" are checked if they need to be removed or are in a certain amount of proximity of eachother
+                if (objects[j].type == 'd')
                 {
+                    objects.RemoveAt(j); //removes the object
+                }
+                else
+                {
+                    objects[j].Update(gameTime, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
+                    if (objects[j].fire)
+                    {   //here a new bullet is created and added to the list to be renderd
+                        Object bullet = new Object();
+                        bullet.Start(laserTexture, 'b', objects[j].position, objects[j].rotation, 3);
+                        objects.Add(bullet);
+                        objects[j].fire = false;
+                    }
 
+                    if (objects[j].type == 'l')
+                    {   //if the object is a armed laser check for proximity to players
+                        for (int i = 0; i < objects.Count; i++)
+                        {
+                            if (objects[i].type == 's' && i != j)
+                            {   //check for proximity to players
+                                float distance = Vector2.Distance(objects[j].position, objects[i].position);
+                                float distanceThreshold = 50.0f;
+                                float angleThreshold = 30.0f;
+
+                                if (distance < distanceThreshold)
+                                {
+                                    float angle = MathHelper.ToDegrees((float)Math.Atan2(objects[i].position.Y - objects[j].position.Y, objects[i].position.X - objects[j].position.X));
+                                    angle = MathHelper.WrapAngle(angle);
+                                    if (Math.Abs(angle - objects[j].rotation) < angleThreshold)
+                                    {   //if the proximity checks pass the object will be destroyed
+                                        objects.RemoveAt(i);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+
+            int activePlayers = 0;
+            foreach (Object obj in objects)
+            {   //checks for the amount of active players
+                if (obj.type == 's')
+                {
+                    activePlayers++;
+                }
+            }
+            if (activePlayers == 1 && textManegement.state == 'g' || textManegement.state == 't')
+            {   //if the amount of active players is one they will be awarded a point and a new round starts
+                textManegement.AddScore(objects[0].playerIndex);
+                StartRound();
+            }
+            if (activePlayers == 0 && textManegement.state == 'g' || textManegement.state == 't')
+            {   //if the amount of active players is zero (very unlikely) the game will just reset with no points awarded
+                StartRound();
+            }
+
             textManegement.UIText(playerCount);
 
             base.Update(gameTime);
@@ -114,49 +161,22 @@ namespace SpaceShooter
             base.Draw(gameTime);
         }
         private Vector2 playerPlacement(int index, int count)
-        {
+        {   //place the players in a nice tidy line
             Vector2 position = new Vector2();
-            switch (playerCount)
-            {
-                case 1:
-                    position.Y = _graphics.PreferredBackBufferHeight / 2;
-                    position.X = _graphics.PreferredBackBufferWidth / 2;
-                    break;
-                case 2:
-                    position.Y = _graphics.PreferredBackBufferHeight / 2;
-                    if (index == 0)
-                    {
-                        position.X = _graphics.PreferredBackBufferWidth / 3 * 1;
-                    }
-                    else
-                    {
-                        position.X = _graphics.PreferredBackBufferWidth / 3 * 2;
-                    }
-                    break;
-                case 3:
-                    if (index == 0)
-                    {
-                        position.Y = _graphics.PreferredBackBufferHeight / 3 * 1;
-                    }
-                    else
-                    {
-                        position.Y = _graphics.PreferredBackBufferHeight / 3 * 2;
-                    }
-                    switch (index)
-                    {
-                        case 0:
-                            position.X = _graphics.PreferredBackBufferWidth / 4 * 2;
-                            break;
-                        case 1:
-                            position.X = _graphics.PreferredBackBufferWidth / 4 * 3;
-                            break;
-                        case 2:
-                            position.X = _graphics.PreferredBackBufferWidth / 4 * 1;
-                            break;
-                    }
-                    break;
-            }
+            position.Y = _graphics.PreferredBackBufferHeight / 2;
+            position.X = _graphics.PreferredBackBufferWidth / (count + 1) * (index + 1);
             return position;
+        }
+        private void StartRound()
+        {   //create the players to start the round
+            objects.Clear();
+            for (int i = 0; i < playerCount; i++)
+            {
+                int playerIndex = i;
+                Object spaceShip = new Object();
+                spaceShip.Start(spaceShipTexture, 's', playerPlacement(playerIndex, playerCount), 0, playerIndex);
+                objects.Add(spaceShip);
+            }
         }
     }
 }
