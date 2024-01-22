@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System;
-using System.Threading;
 
 namespace SpaceShooter
 {
@@ -25,8 +24,8 @@ namespace SpaceShooter
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferHeight = 750;
-            _graphics.PreferredBackBufferWidth = 1500;
+            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferWidth = 2000;
             _graphics.IsFullScreen = false;
         }
 
@@ -62,9 +61,11 @@ namespace SpaceShooter
                 whenDeployedTutorial = gameTime.TotalGameTime.TotalSeconds; //registers when the tutorial is deployed to be removed within a certain amount of seconds
             }
 
-            if (textManegement.state == 't' && whenDeployedTutorial + 10 <= gameTime.TotalGameTime.TotalSeconds)
+            if (textManegement.state == 't' && whenDeployedTutorial + 5 <= gameTime.TotalGameTime.TotalSeconds)
             {
                 textManegement.state = 'g'; // g stands for game
+
+                textManegement.ResetScore();
             }
 
             if (kstate.IsKeyDown(Keys.R) && (textManegement.state == 'g' || textManegement.state == 't'))
