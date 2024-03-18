@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/laser.png</SourceFile>
-  <SourceTime>2024-01-22T09:11:29.0512966+01:00</SourceTime>
-  <DestFile>C:/Users/Eigenaar/source/repos/SpaceShooter/Content/bin/DesktopGL/Content/laser.xnb</DestFile>
-  <DestTime>2024-01-22T09:13:18.9572335+01:00</DestTime>
+  <SourceFile>C:/Users/k.polman/Desktop/spacegame/SpaceShooter/Content/laser.png</SourceFile>
+  <SourceTime>2024-03-08T14:45:20.782443+01:00</SourceTime>
+  <DestFile>C:/Users/k.polman/Desktop/spacegame/SpaceShooter/Content/bin/DesktopGL/Content/laser.xnb</DestFile>
+  <DestTime>2024-03-08T14:46:53.9681988+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T13:44:56+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
