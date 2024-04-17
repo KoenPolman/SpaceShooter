@@ -83,13 +83,13 @@ namespace SpaceShooter
                 }
                 else
                 {
-                    objects[j].Update(gameTime, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
-                    if (objects[j].fire)
+                    //objects[j].Update(gameTime, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
+                    if (objects[j].fireBullet)
                     {   //here a new bullet is created and added to the list to be renderd
                         Object bullet = new Object();
                         bullet.Start(laserTexture, 'b', objects[j].position, objects[j].rotation, 3);
                         objects.Add(bullet);
-                        objects[j].fire = false;
+                        objects[j].fireBullet = false;
                     }
 
                     if (objects[j].type == 'l')
