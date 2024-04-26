@@ -5,47 +5,27 @@ using Microsoft.Xna.Framework.Graphics;
 public class Object
 {
     public Texture2D texture;
-    public char type;
-    public int playerIndex = 3;
 
-    protected Vector2 momentumDir   = new Vector2(0, 0);
-    public    Vector2 position      = new Vector2(0, 0);
-    public    float   rotation      = 0;
-    protected float   baseSpeed     = 3f;
-    protected float   rotationSpeed = 0.1f;
-    public    bool    fireBullet    = false;
-    protected bool    fired         = false;
+    protected Vector2 momentumDir          = new Vector2(0, 0);
+    public    Vector2 position             = new Vector2(0, 0);
+    public    float   rotation             = 0;
+    protected float   baseSpeed            = 3f;
+    protected float   rotationSpeed        = 0.1f;
+    public    bool    markedForDestruction = false;
+    public    bool    fireBullet           = false;
+    protected bool    fired                = false;
     protected float   lifeTimeTracker;
     public void Start(Texture2D newTexture, char newType, Vector2 newPosition, float newRotation, int newPlayerIndex)
     {
         texture     = newTexture;
-        type        = newType;
         position    = newPosition;
         rotation    = newRotation;
-        playerIndex = newPlayerIndex;
     }
     public void UpdateObject(GameTime gameTime, int windowHeigth, int windowWidth)
     {
         if (lifeTimeTracker == null)
         {
             lifeTimeTracker = 0; 
-        }
-
-        if (type == 'b') //'b' means un-armed bullet
-        {
-            if (lifeTimeTracker == 0)
-            {   //the first update the bullet is launched in the direction matching the players it originates from
-                momentumDir.Y -= 3000 * (float)Math.Cos(rotation); 
-                momentumDir.X -= 3000 * (float)Math.Sin(rotation);
-            }
-            if (lifeTimeTracker >= 0.05)
-            {
-                type = 'l'; //'l' means armed bulled
-            }
-        }
-        if (type == 'l' && lifeTimeTracker >= 0.3)
-        {
-            type = 'd'; //'d' means marked for destruction
         }
 
         position.Y += momentumDir.Y * (float)gameTime.ElapsedGameTime.TotalSeconds; //calculates the position of the player

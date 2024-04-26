@@ -77,7 +77,7 @@ namespace SpaceShooter
 
             for (int j = 0; j < objects.Count; j++)
             {   //in this for loop items in the list "objects" are checked if they need to be removed or are in a certain amount of proximity of eachother
-                if (objects[j].type == 'd')
+                if (objects[j].markedForDestruction)
                 {
                     objects.RemoveAt(j); //removes the object
                 }
@@ -92,7 +92,7 @@ namespace SpaceShooter
                         objects[j].fireBullet = false;
                     }
 
-                    if (objects[j].type == 'l')
+                    if (objects[j].armed)
                     {   //if the object is a armed laser check for proximity to players
                         for (int i = 0; i < objects.Count; i++)
                         {

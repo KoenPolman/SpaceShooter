@@ -13,6 +13,8 @@ namespace SpaceShooter
     internal class SpaceShip : Object
     {
         private bool[,] controlScheme = null;
+
+        public int playerIndex = 3;
         public void Start()
         {
 
