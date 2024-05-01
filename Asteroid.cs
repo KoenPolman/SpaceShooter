@@ -8,6 +8,6 @@ namespace SpaceShooter
 {
     internal class Asteroid : Object
     {
-
+        //coming soon to kill the dinosaurs
     }
 }

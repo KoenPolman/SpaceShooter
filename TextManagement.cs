@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-public class TextManegement
+public class TextManagement
 {
 	public Vector2 position    = new Vector2(400, 400);
 	public string  currentText = "";

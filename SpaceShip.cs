@@ -10,15 +10,12 @@ using System.Threading.Tasks;
 
 namespace SpaceShooter
 {
-    internal class SpaceShip : Object
+    internal class SpaceShip : Object //holy shit inheritance, no wayy
     {
         private bool[,] controlScheme = null;
 
         public int playerIndex = 3;
-        public void Start()
-        {
-
-        }
+        
         public void Update(GameTime gameTime, int windowHeigth, int windowWidth)
         {
             var kstate = Keyboard.GetState(); //BEHOLD ... the control scheme
@@ -42,7 +39,7 @@ namespace SpaceShooter
                 momentumDir.Y += baseSpeed * (float)Math.Cos(rotation); //adds momentum in the opposit direction the player points to
                 momentumDir.X += baseSpeed * (float)Math.Sin(rotation);
             }
-            else //slow down to a halt
+            else //slow down to a halt when not steered
             {
                 if (momentumDir.Y > 0) { momentumDir.Y--; }
                 if (momentumDir.Y < 0) { momentumDir.Y++; }
@@ -57,14 +54,14 @@ namespace SpaceShooter
             {
                 rotation += rotationSpeed;
             }
-            if (controlScheme[playerIndex, 4] && !fired) //fire laser
+            if (controlScheme[playerIndex, 4] && !readyToFire) //fire laser
             {
                 fireBullet = true;
-                fired = true;
+                readyToFire = true;
             }
-            else if (!controlScheme[playerIndex, 4] && fired) //reset the boolean (its a t flip-flop)
+            else if (!controlScheme[playerIndex, 4] && readyToFire) //reset the boolean (its a t flip-flop)
             {
-                fired = false;
+                readyToFire = false;
             }
         }
     }

@@ -13,7 +13,7 @@ public class Object
     protected float   rotationSpeed        = 0.1f;
     public    bool    markedForDestruction = false;
     public    bool    fireBullet           = false;
-    protected bool    fired                = false;
+    protected bool    readyToFire          = false;
     protected float   lifeTimeTracker;
     public void Start(Texture2D newTexture, char newType, Vector2 newPosition, float newRotation, int newPlayerIndex)
     {

@@ -10,11 +10,12 @@ namespace SpaceShooter
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        List<Object> objects = new List<Object>();
-        TextManegement textManegement = new TextManegement();
-        Texture2D spaceShipTexture;
-        Texture2D asteroidTexture;
-        Texture2D laserTexture;
+        List<SpaceShip> spaceShips = new List<SpaceShip>();
+        List<Lazer>     lazers     = new List<Lazer>(); //fun fact: "laser" is een afkorting voor "Light Amplification by Stimulated Emission of Radiation" maar word hier met een z gespeld want cool
+        List<Asteroid>  asteroids  = new List<Asteroid>();
+        List<Texture2D> textures   = new List<Texture2D>();
+        TextManagement textManagement = new TextManagement();
+        
         SpriteFont font;
         int playerCount = 1;
         double whenDeployedTutorial;
@@ -31,11 +32,11 @@ namespace SpaceShooter
 
         protected override void LoadContent()
         {
-            _spriteBatch     = new SpriteBatch(GraphicsDevice);
-            spaceShipTexture = Content.Load<Texture2D>("spaceship");
-            asteroidTexture  = Content.Load<Texture2D>("ball");
-            laserTexture     = Content.Load<Texture2D>("laser");
-            font             = Content.Load<SpriteFont>("File");
+            textures.Add(Content.Load<Texture2D>("spaceship"));
+            textures.Add(Content.Load<Texture2D>("ball"));
+            textures.Add(Content.Load<Texture2D>("laser"));
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("File");
         }
 
         protected override void Initialize()
@@ -51,28 +52,30 @@ namespace SpaceShooter
                 Exit();
             }
 
-            if (textManegement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
+            if (textManagement.state == 'm' && (kstate.IsKeyDown(Keys.D1) || kstate.IsKeyDown(Keys.D2) || kstate.IsKeyDown(Keys.D3)))
             {   //the gameplay starts, depending on wich button is pressed the amount of players will play
                 if (kstate.IsKeyDown(Keys.D1)) { playerCount = 1; }
                 if (kstate.IsKeyDown(Keys.D2)) { playerCount = 2; }
                 if (kstate.IsKeyDown(Keys.D3)) { playerCount = 3; }
                 StartRound();
-                textManegement.state = 't'; //t stands for tutorial
+                textManagement.state = 't'; //t stands for tutorial
                 whenDeployedTutorial = gameTime.TotalGameTime.TotalSeconds; //registers when the tutorial is deployed to be removed within a certain amount of seconds
             }
 
-            if (textManegement.state == 't' && whenDeployedTutorial + 5 <= gameTime.TotalGameTime.TotalSeconds)
+            if (textManagement.state == 't' && whenDeployedTutorial + 5 <= gameTime.TotalGameTime.TotalSeconds)
             {
-                textManegement.state = 'g'; // g stands for game
+                textManagement.state = 'g'; // g stands for game
 
-                textManegement.ResetScore();
+                textManagement.ResetScore();
             }
 
-            if (kstate.IsKeyDown(Keys.R) && (textManegement.state == 'g' || textManegement.state == 't'))
+            if (kstate.IsKeyDown(Keys.R) && (textManagement.state == 'g' || textManagement.state == 't'))
             {   //return to the mainmenu
-                objects.Clear(); //makes the plaing area empty
-                textManegement.state = 'm'; //m stands for menu/mainmenu
-                textManegement.ResetScore();
+                spaceShips.Clear(); //makes the plaing area empty
+                lazers.Clear();
+
+                textManagement.state = 'm'; //m stands for menu/mainmenu
+                textManagement.ResetScore();
             }
 
             for (int j = 0; j < objects.Count; j++)
@@ -125,17 +128,17 @@ namespace SpaceShooter
                     activePlayers++;
                 }
             }
-            if (activePlayers == 1 && textManegement.state == 'g' || textManegement.state == 't')
+            if (activePlayers == 1 && textManagement.state == 'g' || textManagement.state == 't')
             {   //if the amount of active players is one they will be awarded a point and a new round starts
-                textManegement.AddScore(objects[0].playerIndex);
+                textManagement.AddScore(objects[0].playerIndex);
                 StartRound();
             }
-            if (activePlayers == 0 && textManegement.state == 'g' || textManegement.state == 't')
+            if (activePlayers == 0 && textManagement.state == 'g' || textManagement.state == 't')
             {   //if the amount of active players is zero (very unlikely) the game will just reset with no points awarded
                 StartRound();
             }
 
-            textManegement.UIText(playerCount);
+            textManagement.UIText(playerCount);
 
             base.Update(gameTime);
         }
@@ -143,7 +146,7 @@ namespace SpaceShooter
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(font, textManegement.currentText, textManegement.position, Color.White);
+            _spriteBatch.DrawString(font, textManagement.currentText, textManagement.position, Color.White);
             foreach (Object item in objects)
             {
                 _spriteBatch.Draw(
