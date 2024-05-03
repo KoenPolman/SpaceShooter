@@ -5,10 +5,15 @@ public class TextManagement
 {
 	public Vector2 position    = new Vector2(400, 400);
 	public string  currentText = "";
-	int[]          score       = new int[] {0, 0, 0};
-	public char    state       = 'm';
-	public string UIText(int playerCount)
+	int[]          score       = new int[] {0, 0, 0 };
+	public char    state = 'm';
+
+	public TextManagement()
 	{
+
+	}
+	public string UIText(int playerCount, int[] score)
+    {
 		switch (state)
 		{
 			case 'g': //g for game

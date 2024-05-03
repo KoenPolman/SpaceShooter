@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace SpaceShooter
 {
     internal class Lazer : Object
     {
-        void start()
+        protected bool armed = false;
+        private Lazer(Texture2D newTexture, Vector2 startingPosition, float startingRotation) : base(newTexture, startingPosition, startingRotation)
         {
-            //the first update the bullet is launched in the direction matching the players it originates from
             momentumDir.Y -= 3000 * (float)Math.Cos(rotation);
             momentumDir.X -= 3000 * (float)Math.Sin(rotation);
         }
-        protected bool armed = false;
-        void Update()
+        public void Update()
         {
             if (!armed && lifeTimeTracker >= 0.05)
             {
